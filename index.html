@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chase Game</title>
+    <style>
+        #game-board {
+            width: 400px;
+            height: 400px;
+            background-color: lightgray;
+            position: relative;
+        }
+        #player {
+            width: 20px;
+            height: 20px;
+            background-color: red;
+            position: absolute;
+        }
+        #enemy {
+            width: 20px;
+            height: 20px;
+            background-color: blue;
+            position: absolute;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-board">
+        <div id="player"></div>
+        <div id="enemy"></div>
+    </div>
+
+    <script>
+        // Get game elements
+        var gameBoard = document.getElementById('game-board');
+        var player = document.getElementById('player');
+        var enemy = document.getElementById('enemy');
+
+        // Set initial positions
+        var playerX = 0;
+        var playerY = 0;
+        var enemyX = 200;
+        var enemyY = 200;
+
+        // Move player based on arrow keys
+        document.addEventListener('keydown', function(event) {
+            var key = event.keyCode;
+            if (key === 37 && playerX > 0) { // left arrow
+                playerX -= 10;
+            } else if (key === 38 && playerY > 0) { // up arrow
+                playerY -= 10;
+            } else if (key === 39 && playerX < 380) { // right arrow
+                playerX += 10;
+            } else if (key === 40 && playerY < 380) { // down arrow
+                playerY += 10;
+            }
+
+            // Update player position
+            player.style.left = playerX + 'px';
+            player.style.top = playerY + 'px';
+
+            // Check collision
+            if (isCollision(playerX, playerY, enemyX, enemyY)) {
+                alert('Game Over!');
+                resetGame();
+            }
+        });
+
+        // Function to check collision between player and enemy
+        function isCollision(x1, y1, x2, y2) {
+            return Math.abs(x1 - x2) < 20 && Math.abs(y1 - y2) < 20;
+        }
+
+        // Function to reset game
+        function resetGame() {
+            playerX = 0;
+            playerY = 0;
+            enemyX = Math.floor(Math.random() * 380);
+            enemyY = Math.floor(Math.random() * 380);
+            player.style.left = playerX + 'px';
+            player.style.top = playerY + 'px';
+            enemy.style.left = enemyX + 'px';
+            enemy.style.top = enemyY + 'px';
+        }
+    </script>
+</body>
+</html>
